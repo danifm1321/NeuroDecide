@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Experimento</title>
+        <%- include('../partials/head'); %>
+        <script src="js/experimento.js"></script>
+    </head>
+    <body>
+        <%- include('../partials/header'); %>
+
+        <main class="ps-2 pt-2">
+
+            <div class="modal" id="modal-consentimiento" tabindex="-1">
+                <div class="modal-dialog modal-xl">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Estimado/a participante</h5>
+                    </div>
+                    <div class="modal-body">
+                        <p>Me gustaría agradecerle su interés en colaborar en el estudio en relación al estudio de la toma de decisiones a nivel implícito, realizado por el estudiante Daniel Fernández Mérida y tutorizado por Francisco Manuel García Moreno y Ana Álvarez Muelas, pertenecientes a la Universidad de Granada.</p>
+                        <p>Nos encantaría contar con su participación si tiene usted entre 18 y 25 años. Por favor, si usa gafas o lentillas colóqueselas (preferiblemente lentillas).</p>
+                        <br>
+                        <p>El procedimiento para realizar el experimento es el siguiente:</p>
+                        <ul>
+                            <li>Ajustese la bandana en la cabeza, de forma que los sensores estén en contacto con su frente.</li>
+                            <li>Situése comodamente delante de la pantalla con el dedo índice izquierdo reposando sobre la tecla <strong>Q</strong> y el dedo índice derecho sobre la tecla <strong>P</strong>.</li>
+                            <li>Debe observar las letras que aparecen en la pantalla. Una vez sienta el impulso (sin tener prisa) pulse una de las teclas sobre las que ha reposado los dedos. Por favor, preste atención a la letra que aparecía en pantalla en el momento de sentir el impulso.</li>
+                            <li>Tras pulsar una de las teclas, aparecerán 3 letras y un # en la pantalla. Seleccione la letra que apareció cuando sintió el impulso. Si no es ninguna de las 3 que aparecen, seleccione #.</li>
+                            <li>Cuando esté listo, haga clic en el botón o pulse [ESPACIO] para comenzar. La pantalla aparecerá en blanco durante unos segundos, por favor use ese tiempo para relajarse.</li>
+                        </ul>
+                        <br>
+                        <p>El experimento consiste de 10 sesiones de aproximadamente 2 minutos, donde podrá descansar 1 minuto entre sesión, incluyendo quitarse la bandana.</p>
+                    </div>
+                    <div class="modal-footer d-flex justify-content-between">
+                        <label><input type="checkbox" id="checkbox-consentimiento" onchange="marcarConsentimiento()"/> He leído las instrucciones y doy mi consentimiento para participar en el estudio.</label>
+                      <button type="button" class="btn btn-primary" id="dar-consentimiento" disabled="true" onclick="$('#modal-consentimiento').hide()">Confirmar</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="d-flex justify-content-between aligns-items-center">
+                <div class="introducir-correo ps-2 mt-4 col">
+                    <p class="fs-5 fw-bold">Por favor, introduzca su correo electrónico y su género antes de comenzar con el experimento</p>
+                    <form class="d-flex w-25" action="#" id="form-usuario">
+                        <div>
+                            <div class="d-flex mb-2">
+                                <input type="email" class="form-control me-2" autocomplete="off" id="input-correo" placeholder="Introduce tu correo electrónico">
+                                <button type="submit" class="btn btn-secondary" id="btn-form-usuario">Confirmar</button>
+                            </div>
+                            <input type="radio" id="hombre" name="genero-usuario" value="H"/>
+                            <label for="hombre">Masculino</label>
+                            <input type="radio" id="mujer" class="ms-2" name="genero-usuario" value="M"/>
+                            <label for="mujer">Femenino</label>
+                        </div>
+                    </form>
+                </div>
+        
+                <div class="pe-4 mt-5 col-md-auto d-none" id="numero-trial">
+                    <h4 class="border border-dark p-2">Trial nº </h4>
+                </div>
+              </div>
+
+
+            <div class="d-none" id="correo-introducido"> 
+                <div class="justify-content-center mt-5 h-100">
+                    <div class="form-check form-switch justify-content-center d-flex">
+                        <label><input type="checkbox" id="checkbox-prueba" class="form-check-input"/>Ejecución de prueba</label>
+                    </div>
+                    <div class="justify-content-center d-flex">
+                        <div id="exp-wrapper" class="d-flex aligns-items-center justify-content-center">
+                            <button type="button" id="btn-comenzar-experimento" class="btn btn-dark btn-lg item-centrado">Comenzar experimento</button>
+                            <img src="" id="letra-experimento" class="border border-dark border-2 d-none w-100 d-none" alt="Letra"/>
+                            <div id="wrapper-4-imagenes" class="d-flex d-none">
+                                <div class="wrapper-2-imagenes">
+                                    <a href="" class="enlace-imagen"><img src="" id="conjunto-letra-1" class="imagen-conjunto border border-dark border-2 w-100" alt="Letra"/></a>
+                                    <a href="" class="enlace-imagen"><img src="" id="conjunto-letra-2" class="imagen-conjunto border border-dark border-2 w-100" alt="Letra"/></a>
+        
+                                </div>
+                                <div class="wrapper-2-imagenes">
+                                    <a href="" class="enlace-imagen"><img src="" id="conjunto-letra-3" class="imagen-conjunto border border-dark border-2 w-100" alt="Letra"/></a>
+                                    <a href="" class="enlace-imagen"><img src="" id="conjunto-letra-4" class="imagen-conjunto border border-dark border-2 w-100" alt="Letra"/></a>
+                                </div>
+                            </div>
+                            <img src="images/imagen-blanca.png" id="blank-image" class="border border-dark border-2 w-100 d-none" alt="Imagen blanca"/>
+                        </div>
+                    </div>
+                </div>
+    
+                
+                
+                
+                
+                <div class="justify-content-center d-flex aligns-items-center pt-4">
+                    <div class="d-flex flex-column">
+                        <button type="button" id="boton-validar" class="align-self-center btn-fixed-size btn btn-secondary" onclick="validarExperimento()"><h5>Validar experimento</h5></button>
+                        <h5 id="experimento-valido" class="text-success pt-2 d-none"><i class="fas fa-check"></i> Experimento válido</h5>
+                        <h5 id="tiempo-de-respuesta-alto" class="text-danger pt-2 d-none"><i class="fas fa-times"></i> Tiempo de respuesta alto en un 10% o más de las elecciones</h5>
+                        <h5 id="predileccion" class="text-danger pt-2 d-none"><i class="fas fa-times"></i> Predilección por una de las opciones</h5>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <%- include('../partials/footer'); %>
+    </body>
+</html>

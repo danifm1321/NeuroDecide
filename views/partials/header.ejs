@@ -1,0 +1,28 @@
+<nav id="nav-header" class="navbar navbar-expand-lg  navbar-light bg-danger border-bottom border-1 border-dark ">
+    <a  href="/" id="imagen-ugr" class="nav-item"><img src="images/logo-ugr.png" alt="Logo UGR" class="w-100"/></a>
+    <div class="d-flex justify-content-start container-fluid">
+        <ul class="nav navbar-nav" id="navegacion-barra-superior">
+            <li class="nav-item item-sup-nav">
+                <% if(active == "inicio") {%>    
+                    <a class="nav-link active" href="/">
+                <%} else {%>
+                    <a class="nav-link" href="/">
+                <%}%>
+                Inicio</a></li>
+            <li class="nav-item item-sup-nav"> 
+                <% if(active == "experimento") { %>    
+                    <a class="nav-link active" href="/experimento">
+                <%} else {%>
+                    <a class="nav-link" href="/experimento">
+                <%}%>
+                Realizar experimento</a></li>
+            <li class="nav-item item-sup-nav"> 
+                <% if(active == "graficos") { %>    
+                    <a class="nav-link active" href="/graficos">
+                <%} else {%>
+                    <a class="nav-link" href="/graficos">
+                <%}%>
+                Ver gráficos</a></li>
+        </ul>
+    </div>
+</nav>

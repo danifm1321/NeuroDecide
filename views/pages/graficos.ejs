@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Gráficos</title>
+        <%- include('../partials/head'); %>
+        <script src="js/graficos.js"></script>
+
+    </head>
+    <body>
+        <%- include('../partials/header'); %>
+
+        <main class="ps-2 pt-2">
+            <div class="d-flex">
+                <div class="row m-3 w-25 bg-secondary text-white p-2 rounded lines-related boxes-related" id="participantes-wrapper">
+                    <div class="align-self-center d-flex align-items-center mb-2">
+                        <i class="fa fa-users fa-lg me-2" aria-hidden="true"></i>
+                        <h5>Participantes</h5>
+                    </div>
+                    <div class="col w-100">
+                        <div class="form-group">
+                            <select class="selectpicker form-control" id="select-participantes" data-actions-box="true" title="Participantes a observar"><!--multiple data-size="5"-->
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row m-3 w-25 bg-secondary text-white p-2 rounded lines-related boxes-related" id="sesiones-wrapper">
+                    <div class="align-self-center d-flex align-items-center mb-2">
+                        <i class="fa fa-list-ol fa-lg me-2" aria-hidden="true"></i>
+                        <h5>Sesiones</h5>
+                    </div>
+                    <div class="col w-100">
+                        <div class="form-group">
+                            <select class="selectpicker form-control" id="select-sesiones" title="Sesión a observar"> 
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row m-3 w-25 bg-secondary text-white p-2 rounded d-none boxes-participants-related" id="participantes-cajas-wrapper">
+                    <div class="align-self-center d-flex align-items-center mb-2">
+                        <i class="fa fa-users fa-lg me-2" aria-hidden="true"></i>
+                        <h5>Participantes</h5>
+                    </div>
+                    <div class="col w-100">
+                        <div class="form-group">
+                            <select class="selectpicker form-control" multiple data-actions-box="true" data-size="10" data-select-all-text="Seleccionar todos" data-deselect-all-text="Deseleccionar todos" id="select-participantes-cajas" title="Participantes a observar">
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row m-3 w-25 bg-secondary text-white p-2 rounded d-none boxes-sensors-related" id="sensores-cajas-wrapper">
+                    <div class="align-self-center d-flex align-items-center mb-2">
+                        <i class="fa fa-list-ol fa-lg me-2" aria-hidden="true"></i>
+                        <h5>Sensores</h5>
+                    </div>
+                    <div class="col w-100">
+                        <div class="form-group">
+                            <select class="selectpicker form-control" multiple data-actions-box="true" data-select-all-text="Seleccionar todos" data-deselect-all-text="Deseleccionar todos" id="select-sensores-cajas" title="Sesión a observar"> 
+                                <option value="AF7" selected>AF7</option>
+                                <option value="AF8" selected>AF8</option>
+                                <option value="TP9" selected>TP9</option>
+                                <option value="TP10" selected>TP10</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row m-3 w-25 bg-secondary text-white p-2 rounded lines-related" id="intervalo-wrapper">
+                    <div class="align-self-center d-flex align-items-center mb-2">
+                        <i class="fa fa-clock-o fa-lg me-2" aria-hidden="true"></i>
+                        <h5>Frecuencia de datos</h5>
+                    </div>
+                    <div class="col w-100">
+                        <div class="form-group">
+                            <select class="selectpicker form-control" id="select-intervalo" data-actions-box="true" title="Intervalo de datos">
+                                <option value="0" selected>Continuo</option>
+                                <option value="100">Cada 100 milisegundos</option>
+                                <option value="250">Cada 250 milisegundos</option>
+                                <option value="500">Cada 500 milisegundos</option>
+                                <option value="1000">Cada segundo</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row m-3 w-25 bg-secondary text-white p-2 rounded d-none boxes-related" id="pre-decision-wrapper">
+                    <div class="align-self-center d-flex align-items-center mb-2">
+                        <i class="fa fa-clock-o fa-lg me-2" aria-hidden="true"></i>
+                        <h5>Tiempo pre-decisión</h5>
+                    </div>
+                    <div class="col w-100">
+                        <div class="form-group">
+                            <select class="selectpicker form-control" id="select-pre-decision" data-actions-box="true" title="Tiempo pre-decisión">
+                                <option value="500" selected>0.5 segundos</option>
+                                <option value="1000">1 segundo</option>
+                                <option value="1500">1.5 segundos</option>
+                                <option value="2000">2 segundos</option>
+                                <option value="2500">2.5 segundos</option>
+                                <option value="3000">3 segundos</option>
+                                <option value="3500">3.5 segundos</option>
+                                <option value="4000">4 segundos</option>
+                                <option value="4500">4.5 segundos</option>
+                                <option value="5000">5 segundos</option>
+                                <option value="5500">5.5 segundos</option>
+                                <option value="6000">6 segundos</option>
+                                <option value="6500">6.5 segundos</option>
+                                <option value="7000">7 segundos</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row m-3 w-25 bg-secondary text-white p-2 rounded d-none boxes-sensors-related" id="pre-decision-wrapper">
+                    <div class="align-self-center d-flex align-items-center mb-2">
+                        <i class="fa fa-clock-o fa-lg me-2" aria-hidden="true"></i>
+                        <h5>Tiempo pre-decisión</h5>
+                    </div>
+                    <div class="col w-100">
+                        <div class="form-group">
+                            <select class="selectpicker form-control" id="select-pre-decision-sensores" data-actions-box="true" title="Tiempo pre-decisión">
+                                <option value="500" selected>0.5 segundos</option>
+                                <option value="1000">1 segundo</option>
+                                <option value="1500">1.5 segundos</option>
+                                <option value="2000">2 segundos</option>
+                                <option value="2500">2.5 segundos</option>
+                                <option value="3000">3 segundos</option>
+                                <option value="3500">3.5 segundos</option>
+                                <option value="4000">4 segundos</option>
+                                <option value="4500">4.5 segundos</option>
+                                <option value="5000">5 segundos</option>
+                                <option value="5500">5.5 segundos</option>
+                                <option value="6000">6 segundos</option>
+                                <option value="6500">6.5 segundos</option>
+                                <option value="7000">7 segundos</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row m-3 w-25 bg-secondary text-white p-2 rounded d-none boxes-participants-related" id="pre-decision-wrapper">
+                    <div class="align-self-center d-flex align-items-center mb-2">
+                        <i class="fa fa-clock-o fa-lg me-2" aria-hidden="true"></i>
+                        <h5>Tiempo pre-decisión</h5>
+                    </div>
+                    <div class="col w-100">
+                        <div class="form-group">
+                            <select class="selectpicker form-control" id="select-pre-decision-participantes" data-actions-box="true" title="Tiempo pre-decisión">
+                                <option value="500" selected>0.5 segundos</option>
+                                <option value="1000">1 segundo</option>
+                                <option value="1500">1.5 segundos</option>
+                                <option value="2000">2 segundos</option>
+                                <option value="2500">2.5 segundos</option>
+                                <option value="3000">3 segundos</option>
+                                <option value="3500">3.5 segundos</option>
+                                <option value="4000">4 segundos</option>
+                                <option value="4500">4.5 segundos</option>
+                                <option value="5000">5 segundos</option>
+                                <option value="5500">5.5 segundos</option>
+                                <option value="6000">6 segundos</option>
+                                <option value="6500">6.5 segundos</option>
+                                <option value="7000">7 segundos</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="form-check form-switch ms-3">
+                <label class="lines-related"><input type="checkbox" id="normalizar-checkbox-lines" class="form-check-input"/>Normalizar datos</label>
+                <label class="d-none boxes-related"><input type="checkbox" id="normalizar-checkbox-boxes" class="form-check-input"/>Normalizar datos</label>
+                <label class="d-none boxes-participants-related"><input type="checkbox" id="normalizar-checkbox-boxes-participants" class="form-check-input"/>Normalizar datos</label>
+                <label class="d-none boxes-sensors-related"><input type="checkbox" id="normalizar-checkbox-boxes-sensors" class="form-check-input"/>Normalizar datos</label>
+            </div>
+
+            <div class="d-flex justify-content-center">
+                <button class="btn btn-outline-primary m-1 boton-ver-graficas active" type="button" id="ver-lineas">Gráficos de líneas</button>
+                <button class="btn btn-outline-primary m-1 boton-ver-graficas" type="button" id="ver-cajas">Gráficos de caja</button>
+                <button class="btn btn-outline-primary m-1 boton-ver-graficas" type="button" id="ver-cajas-participantes">Gráficos de caja por participantes</button>
+                <button class="btn btn-outline-primary m-1 boton-ver-graficas" type="button" id="ver-cajas-sensores">Gráficos de caja por sensores</button>
+            </div>
+
+            <div class="row">
+            <%- include('../partials/line-cards'); %>
+            <%- include('../partials/box-cards'); %>
+            <%- include('../partials/box-participants-cards'); %>
+            <%- include('../partials/box-sensors-cards'); %>
+            </div>
+        </main>
+
+        <%- include('../partials/footer'); %>
+    </body>
+</html>

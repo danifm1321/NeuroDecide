@@ -1,0 +1,24 @@
+{
+    "name": "TFG-TomaDeDecisiones",
+    "version": "1.0.0",
+    "description": "",
+    "scripts": {
+        "start": "node server.js",
+        "test":"jest"
+    },
+    "dependencies": {
+        "async-limiter": "^2.0.0",
+        "child_process": "^1.0.2",
+        "csv-parser": "^3.0.0",
+        "csv-writer": "^1.6.0",
+        "ejs": "^3.1.5",
+        "express": "^4.17.1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/danifm1321/TFG-TomaDeDecisiones"
+    },
+    "devDependencies": {
+        "jest": "^29.5.0"
+    }
+}

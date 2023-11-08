@@ -1,3 +1,7 @@
+#Project ignores
+GoogleDrive
+
+
 # Logs
 logs
 *.log

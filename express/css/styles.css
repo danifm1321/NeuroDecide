@@ -1,0 +1,43 @@
+#exp-wrapper {
+    width:40%;
+    background-color:lightgray
+}
+
+.item-centrado {
+    margin-top: 45%;
+    margin-bottom: 45%;
+}
+
+main {
+    margin-bottom: 10%;
+}
+
+#imagen-ugr {
+    width: 10%;
+}
+
+#nav-header {
+    font-size: 1.2em;
+}
+
+.item-sup-nav:not(:last-child) 
+{
+    border-right: black solid 2px;
+}
+
+#cards > div{
+    margin: 1%
+}
+
+.chart-wrapper {
+    height: 500px;    
+}
+
+.btn-enviar-datos {
+    width: 96%;
+    
+}
+
+.btn-fixed-size {
+    width: 250px; /* Tamaño fijo deseado para el botón */
+  }
