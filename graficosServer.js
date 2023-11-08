@@ -20,11 +20,16 @@ function getUsuarios() {
 
     let participantes = []
 
+    const resultsFileRegex = /^results\d+\.csv$/;
+
     fs.readdirSync("data/").forEach(file => {
+      if (resultsFileRegex.test(file)) {
+
         let participante = parseInt(file.split("results")[1].split('.csv')[0]);
 
         if(participante >= 0)
-          participantes.push(participante)        
+          participantes.push(participante);
+      }   
     });
 
     participantes.sort((a, b) => a - b);
