@@ -41,17 +41,19 @@
 
               <div class="d-flex justify-content-between aligns-items-center">
                 <div class="introducir-correo ps-2 mt-4 col">
-                    <p class="fs-5 fw-bold">Por favor, introduzca su correo electrónico y su género antes de comenzar con el experimento</p>
+                    <p class="fs-5 fw-bold">Por favor, introduzca su correo electrónico antes de comenzar con el experimento</p>
                     <form class="d-flex w-25" action="#" id="form-usuario">
                         <div>
                             <div class="d-flex mb-2">
                                 <input type="email" class="form-control me-2" autocomplete="off" id="input-correo" placeholder="Introduce tu correo electrónico">
                                 <button type="submit" class="btn btn-secondary" id="btn-form-usuario">Confirmar</button>
                             </div>
-                            <input type="radio" id="hombre" name="genero-usuario" value="H"/>
-                            <label for="hombre">Masculino</label>
-                            <input type="radio" id="mujer" class="ms-2" name="genero-usuario" value="M"/>
-                            <label for="mujer">Femenino</label>
+                            <div class="d-none" id="input-genero">
+                                <input type="radio" id="hombre" name="genero-usuario" value="H"/>
+                                <label for="hombre">Masculino</label>
+                                <input type="radio" id="mujer" class="ms-2" name="genero-usuario" value="M"/>
+                                <label for="mujer">Femenino</label>
+                            </div>
                         </div>
                     </form>
                 </div>

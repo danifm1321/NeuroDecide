@@ -299,12 +299,10 @@ function validarExperimento()
 
 function iniciaUsuario()
 {
-    if($("#input-correo").val() != "" && $('input[name=genero-usuario]:checked', '#form-usuario').val() != undefined)
-    {
-        $("#form-usuario").prop("disabled", true)        
-        $("#correo-introducido").removeClass("d-none")
-        identificarUsuario()
-
+    if($("#input-correo").val() != "" && $("#input-genero").hasClass("d-none")) {
+        identificarUsuario();
+    } else if($("#input-correo").val() != "" && !$("#input-genero").hasClass("d-none")) {
+        registrarUsuario();
     }
 }
 
@@ -316,7 +314,25 @@ function marcarConsentimiento(){
 }
 
 function identificarUsuario() {
+    
+    $.ajax({
+        type : "POST",
+        url : "identificarUsuario",
+        data : '{"emailUsuario": "' + $("#input-correo").val() + '"}',
+        contentType: 'application/json;charset=UTF-8', 
+      }).done (function (data) {
+        if(data.userId == undefined) {
+            $("#input-genero").removeClass("d-none");
+            $("#input-correo").prop("disabled", true);
+        } else {
+            idUsuario = data.userId;
+            $("#form-usuario input").prop("disabled", true);  
+            $("#correo-introducido").removeClass("d-none");
+        }
+    });
+}
 
+function registrarUsuario() {
     $.ajax({
         type : "POST",
         url : "registrarUsuario",
@@ -325,6 +341,8 @@ function identificarUsuario() {
         contentType: 'application/json;charset=UTF-8', 
       }).done (function (data) {
         idUsuario = data.userId;
+        $("#form-usuario input").prop("disabled", true);  
+        $("#correo-introducido").removeClass("d-none");
     });
 }
 

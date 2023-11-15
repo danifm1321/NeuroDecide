@@ -3,6 +3,35 @@ const createCsvWriter = require('csv-writer').createObjectCsvWriter;
 
 var csvWriter;
 
+function identificacionUsuario(emailUsuario) {
+  var user;
+
+  let rawdata = fs.readFileSync('secrets/users.json');
+  let users = JSON.parse(rawdata);
+
+  for (var i=0 ; i < users.length ; i++) {
+    if(users[i]['email'] == emailUsuario) 
+      user = users[i];
+  }
+
+  if(user == undefined)
+    return {
+      userId: undefined
+  }
+  else
+  {
+    creaCSVWriterConAppend(user.id);
+    //Ya que si se añade append: true, csv writer no introduce la cabecera se ha de comprobar si el archivo en el que se van a introducir los datos
+    //existe para introducir a mano la cabecera.
+    creaCabecera(user.id)
+
+    return {
+      userId: user['id']
+    };
+  }
+}
+
+
 function registroUsuario(emailUsuario, generoUsuario) {
     var user;
 
@@ -15,29 +44,15 @@ function registroUsuario(emailUsuario, generoUsuario) {
         if(users[i]['id'] > higherID) {
           higherID = users[i]['id'];
         }
-
-        if(users[i]['email'] == emailUsuario) 
-          user = users[i];
       }
 
-        
-      if(user == undefined)
-      {
-        user = creaNuevoUsuario(emailUsuario, generoUsuario, higherID)
-        users.push(user)
+      user = creaNuevoUsuario(emailUsuario, generoUsuario, higherID)
+      users.push(user)
 
-        let data = JSON.stringify(users);
-        fs.writeFile('secrets/users.json', data, function(err, result) {
-          if(err) console.log('error', err);
-        });
-      } else {
-
-        creaCSVWriterConAppend(user.id);
-        //Ya que si se añade append: true, csv writer no introduce la cabecera se ha de comprobar si el archivo en el que se van a introducir los datos
-        //existe para introducir a mano la cabecera.
-        creaCabecera(user.id)
-
-      }
+      let data = JSON.stringify(users);
+      fs.writeFile('secrets/users.json', data, function(err, result) {
+        if(err) console.log('error', err);
+      });
     } catch (err) {
 
       //SI NO EXISTE EL ARCHIVO, ES DECIR, NO SE HA REGISTRADO NINGUN USUARIO
@@ -180,3 +195,4 @@ function grabarCSV(req, res) {
 
 module.exports.registroUsuario = registroUsuario;
 module.exports.grabarCSV = grabarCSV;
+module.exports.identificacionUsuario = identificacionUsuario;

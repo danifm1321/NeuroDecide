@@ -41,6 +41,14 @@ app.get('/graficos', function(req, res) {
   });
 });
 
+app.post('/identificarUsuario', function(req, res) {
+  const { emailUsuario } = req.body;
+
+  respuesta = experimentoServer.identificacionUsuario(emailUsuario);
+
+  return res.status(200).json(respuesta);
+});
+
 app.post('/registrarUsuario', function(req, res) {
   const { emailUsuario } = req.body
   const { generoUsuario } = req.body
