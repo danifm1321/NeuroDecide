@@ -1,3 +1,4 @@
+import re
 import sys
 import os
 import pandas as pd
@@ -374,7 +375,10 @@ for sensor in sensores:
 
 
 archivos_csv = os.listdir("data")
-archivos_csv = [archivo for archivo in archivos_csv if int(archivo.split(".")[0].split("results")[1]) >= 0]
+
+archivos_csv_structure = re.compile(r'^results\d+\.csv$')
+
+archivos_csv = [filename for filename in archivos_csv if archivos_csv_structure.match(filename)]
 #archivos_csv = archivos_csv[0:2]
 
 if sensores != []:
