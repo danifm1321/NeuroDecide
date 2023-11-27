@@ -81,6 +81,30 @@ $(document).ready(function ()
   $("#normalizar-checkbox-boxes-sensors").change(function() {
     ajaxGetDataCajasSensores();
   });
+
+  $("#pre-decision-checkbox-boxes").change(function() {
+    updateDataCajas();
+  });
+
+  $("#pre-decision-checkbox-boxes-participants").change(function() {
+    updateDataCajasParticipantes();
+  });
+
+  $("#pre-decision-checkbox-boxes-sensors").change(function() {
+    updateDataCajasSensores();
+  });
+
+  $("#post-decision-checkbox-boxes").change(function() {
+    updateDataCajas();
+  });
+
+  $("#post-decision-checkbox-boxes-participants").change(function() {
+    updateDataCajasParticipantes();
+  });
+
+  $("#post-decision-checkbox-boxes-sensors").change(function() {
+    updateDataCajasSensores();
+  });
   
   $("#select-intervalo").change(function () {
     showLoading(TIPOS_GRAFICOS.LINEAS);
@@ -286,43 +310,49 @@ function ajaxGetDataCajasParticipantes() {
         hideLoading(TIPOS_GRAFICOS.CAJAS_PARTICIPANTES)
       }
     }).done(function(data) {
-      const dataJsonParticipantesDesordenado = JSON.parse(JSON.parse(data))
 
 
-      const orden = [
-        "Pre-decisión de AF7 para p",
-        "Pre-decisión de AF7 para q",
-        "Post-decisión de AF7 para p",
-        "Post-decisión de AF7 para q",
-        "Pre-decisión de AF8 para p",
-        "Pre-decisión de AF8 para q",
-        "Post-decisión de AF8 para p",
-        "Post-decisión de AF8 para q",
-        "Pre-decisión de TP9 para p",
-        "Pre-decisión de TP9 para q",
-        "Post-decisión de TP9 para p",
-        "Post-decisión de TP9 para q",
-        "Pre-decisión de TP10 para p",
-        "Pre-decisión de TP10 para q",
-        "Post-decisión de TP10 para p",
-        "Post-decisión de TP10 para q",
-      ];
+      if(JSON.parse(data)["Error"] != undefined)
+      {
+      } else {
 
-      dataJsonParticipantes = {}
+        const dataJsonParticipantesDesordenado = JSON.parse(data)
 
-      $.each(dataJsonParticipantesDesordenado, function(participante){
-        dataJsonParticipantes[participante] = {}
-        
-        $.each(dataJsonParticipantesDesordenado[participante], function(tipoDeOnda){
-          dataJsonParticipantes[participante][tipoDeOnda] = {}
-
-          orden.forEach((clave) => {
-            dataJsonParticipantes[participante][tipoDeOnda][clave] = dataJsonParticipantesDesordenado[participante][tipoDeOnda][clave]
+        const orden = [
+          "Pre-decisión de AF7 para p",
+          "Pre-decisión de AF7 para q",
+          "Post-decisión de AF7 para p",
+          "Post-decisión de AF7 para q",
+          "Pre-decisión de AF8 para p",
+          "Pre-decisión de AF8 para q",
+          "Post-decisión de AF8 para p",
+          "Post-decisión de AF8 para q",
+          "Pre-decisión de TP9 para p",
+          "Pre-decisión de TP9 para q",
+          "Post-decisión de TP9 para p",
+          "Post-decisión de TP9 para q",
+          "Pre-decisión de TP10 para p",
+          "Pre-decisión de TP10 para q",
+          "Post-decisión de TP10 para p",
+          "Post-decisión de TP10 para q",
+        ];
+  
+        dataJsonParticipantes = {}
+  
+        $.each(dataJsonParticipantesDesordenado, function(participante){
+          dataJsonParticipantes[participante] = {}
+          
+          $.each(dataJsonParticipantesDesordenado[participante], function(tipoDeOnda){
+            dataJsonParticipantes[participante][tipoDeOnda] = {}
+  
+            orden.forEach((clave) => {
+              dataJsonParticipantes[participante][tipoDeOnda][clave] = dataJsonParticipantesDesordenado[participante][tipoDeOnda][clave]
+            });
           });
         });
-      });
-
-      updateDataCajasParticipantes();
+  
+        updateDataCajasParticipantes();
+      }
     });
   }
 }
@@ -346,30 +376,38 @@ function ajaxGetDataCajasSensores() {
         hideLoading(TIPOS_GRAFICOS.CAJAS_SENSORES)
       }
     }).done(function(data) {
-      const dataJsonSensoresDesordenado = JSON.parse(JSON.parse(data))
 
-      const orden = [
-        "Pre-decisión para p",
-        "Pre-decisión para q",
-        "Post-decisión para p",
-        "Post-decisión para q",
-      ];
+      if(JSON.parse(data)["Error"] != undefined)
+      {
+        console.log("error")
+      } else {
+        const dataJsonSensoresDesordenado = JSON.parse(data)
 
-      dataJsonSensores = {}
-
-      $.each(dataJsonSensoresDesordenado, function(sensor){
-        dataJsonSensores[sensor] = {}
-        
-        $.each(dataJsonSensoresDesordenado[sensor], function(tipoDeOnda){
-          dataJsonSensores[sensor][tipoDeOnda] = {}
-
-          orden.forEach((clave) => {
-            dataJsonSensores[sensor][tipoDeOnda][clave] = dataJsonSensoresDesordenado[sensor][tipoDeOnda][clave]
+        const orden = [
+          "Pre-decisión para p",
+          "Pre-decisión para q",
+          "Post-decisión para p",
+          "Post-decisión para q",
+        ];
+  
+        dataJsonSensores = {}
+  
+        $.each(dataJsonSensoresDesordenado, function(sensor){
+          dataJsonSensores[sensor] = {}
+          
+          $.each(dataJsonSensoresDesordenado[sensor], function(tipoDeOnda){
+            dataJsonSensores[sensor][tipoDeOnda] = {}
+  
+            orden.forEach((clave) => {
+              dataJsonSensores[sensor][tipoDeOnda][clave] = dataJsonSensoresDesordenado[sensor][tipoDeOnda][clave]
+            });
           });
         });
-      });
+  
+        updateDataCajasSensores();
+      }
 
-      updateDataCajasSensores();
+
     });
   }
 
@@ -751,6 +789,10 @@ function updateDataCajas() {
 
   //Para cada tipo de onda
   if(tiemposAparicionP.length != 0 || tiemposAparicionQ.length != 0) {
+
+    let preDecisionChecked = $("#pre-decision-checkbox-boxes").is(':checked');
+    let postDecisionChecked = $("#post-decision-checkbox-boxes").is(':checked');
+
     $.each(museData, function(i, tipoDeSensor) {    
       let dataPoints = [];
       let data = [];
@@ -827,39 +869,43 @@ function updateDataCajas() {
           }
         });
 
+        if(preDecisionChecked)
+        {
+          let valoresCalculadosPredecisionP = getValoresBoxPlot(valoresDatapointsPredecisionP);
+  
+          dataPoints.push({
+            label: "Pre-decisión de " + j + " para p",
+            y: valoresCalculadosPredecisionP,
+            color: coloresTipoDeSensor[j]
+          });
+  
+          let valoresCalculadosPredecisionQ = getValoresBoxPlot(valoresDatapointsPredecisionQ);
+    
+          dataPoints.push({
+            label: "Pre-decisión de " + j + " para q",
+            y: valoresCalculadosPredecisionQ,
+            color: coloresTipoDeSensor[j]
+          });
+        }
 
+        if(postDecisionChecked)
+        {
+          let valoresCalculadosPostdecisionP = getValoresBoxPlot(valoresDatapointsPostdecisionP);
   
-        let valoresCalculadosPredecisionP = getValoresBoxPlot(valoresDatapointsPredecisionP);
+          dataPoints.push({
+            label: "Post-decisión de " + j + " para p",
+            y: valoresCalculadosPostdecisionP,
+            color: coloresTipoDeSensor[j]
+          });
   
-        dataPoints.push({
-          label: "Pre-decisión de " + j + " para p",
-          y: valoresCalculadosPredecisionP,
-          color: coloresTipoDeSensor[j]
-        });
-
-        let valoresCalculadosPredecisionQ = getValoresBoxPlot(valoresDatapointsPredecisionQ);
-  
-        dataPoints.push({
-          label: "Pre-decisión de " + j + " para q",
-          y: valoresCalculadosPredecisionQ,
-          color: coloresTipoDeSensor[j]
-        });
-  
-        let valoresCalculadosPostdecisionP = getValoresBoxPlot(valoresDatapointsPostdecisionP);
-  
-        dataPoints.push({
-          label: "Post-decisión de " + j + " para p",
-          y: valoresCalculadosPostdecisionP,
-          color: coloresTipoDeSensor[j]
-        });
-
-        let valoresCalculadosPostdecisionQ = getValoresBoxPlot(valoresDatapointsPostdecisionQ);
-  
-        dataPoints.push({
-          label: "Post-decisión de " + j + " para q",
-          y: valoresCalculadosPostdecisionQ,
-          color: coloresTipoDeSensor[j]
-        });
+          let valoresCalculadosPostdecisionQ = getValoresBoxPlot(valoresDatapointsPostdecisionQ);
+    
+          dataPoints.push({
+            label: "Post-decisión de " + j + " para q",
+            y: valoresCalculadosPostdecisionQ,
+            color: coloresTipoDeSensor[j]
+          });
+        }
       });
   
       data.push({
@@ -877,7 +923,9 @@ function updateDataCajas() {
 function updateDataCajasParticipantes() {
 
   let participantes = Object.keys(dataJsonParticipantes)
-  
+  let preDecisionChecked = $("#pre-decision-checkbox-boxes-participants").is(':checked');
+  let postDecisionChecked = $("#post-decision-checkbox-boxes-participants").is(':checked');
+
   $.each(chartsCajasParticipantes, function(i, chart) {
 
     let data = []
@@ -885,11 +933,12 @@ function updateDataCajasParticipantes() {
 
     $.each(dataJsonParticipantes[participantes[0]][i], function(j){
       $.each(participantes, function(k, participante) {
-        datapoints.push({
-          label: j + " del participante " + (parseInt(participante) + 1),
-          y: [dataJsonParticipantes[participante][i][j]["minimo"], dataJsonParticipantes[participante][i][j]["cuartil1"], dataJsonParticipantes[participante][i][j]["cuartil3"], dataJsonParticipantes[participante][i][j]["maximo"], dataJsonParticipantes[participante][i][j]["cuartil2"]],
-          color: coloresTipoDeSensor[j.split("decisión de ")[1]]
-        });
+        if((j.includes("Pre-decisión") && preDecisionChecked) || (j.includes("Post-decisión") && postDecisionChecked))
+          datapoints.push({
+            label: j + " del participante " + (parseInt(participante) + 1),
+            y: [dataJsonParticipantes[participante][i][j]["minimo"], dataJsonParticipantes[participante][i][j]["cuartil1"], dataJsonParticipantes[participante][i][j]["cuartil3"], dataJsonParticipantes[participante][i][j]["maximo"], dataJsonParticipantes[participante][i][j]["cuartil2"]],
+            color: coloresTipoDeSensor[j.split("decisión de ")[1]]
+          });
       });
     });
 
@@ -908,6 +957,8 @@ function updateDataCajasParticipantes() {
 function updateDataCajasSensores() {
   
   let sensores = Object.keys(dataJsonSensores)
+  let preDecisionChecked = $("#pre-decision-checkbox-boxes-sensors").is(':checked');
+  let postDecisionChecked = $("#post-decision-checkbox-boxes-sensors").is(':checked');
 
   $.each(chartsCajasSensores, function(i, chart) {
 
@@ -916,11 +967,13 @@ function updateDataCajasSensores() {
 
     $.each(dataJsonSensores[sensores[0]][i], function(j){
       $.each(sensores, function(k, sensor) {
-        datapoints.push({
-          label: j + " del sensor " + sensor,
-          y: [dataJsonSensores[sensor][i][j]["minimo"], dataJsonSensores[sensor][i][j]["cuartil1"], dataJsonSensores[sensor][i][j]["cuartil3"], dataJsonSensores[sensor][i][j]["maximo"], dataJsonSensores[sensor][i][j]["cuartil2"]],
-          color: coloresTipoDeSensor[sensor]
-        });
+
+        if((j.includes("Pre-decisión") && preDecisionChecked) || (j.includes("Post-decisión") && postDecisionChecked))
+          datapoints.push({
+            label: j + " del sensor " + sensor,
+            y: [dataJsonSensores[sensor][i][j]["minimo"], dataJsonSensores[sensor][i][j]["cuartil1"], dataJsonSensores[sensor][i][j]["cuartil3"], dataJsonSensores[sensor][i][j]["maximo"], dataJsonSensores[sensor][i][j]["cuartil2"]],
+            color: coloresTipoDeSensor[sensor]
+          });
       })
     });
 
