@@ -50,8 +50,7 @@ app.post('/identificarUsuario', function(req, res) {
 });
 
 app.post('/registrarUsuario', function(req, res) {
-  const { emailUsuario } = req.body
-  const { generoUsuario } = req.body
+  const { emailUsuario, generoUsuario } = req.body
 
   respuesta = experimentoServer.registroUsuario(emailUsuario, generoUsuario);
 
@@ -120,13 +119,11 @@ app.get('/getData/:user/:sesion', function(req, res) {
 });
 
 app.post('/getDataCajasParticipantes', function(req, res) {
-  const{ participantes } = req.body;
-  const{ milisegundos } = req.body;
-  const{ normalizar } = req.body;
+  const{ participantes, milisegundos, normalizar } = req.body;
 
   graficosServer.getMedidasCalculadasParticipantes(JSON.stringify(participantes), milisegundos, normalizar)
   .then(data => {
-    return res.status(200).json(JSON.stringify(data));
+    return res.status(200).json(data);
   })
   .catch(err => {
     console.error(err);
@@ -135,19 +132,17 @@ app.post('/getDataCajasParticipantes', function(req, res) {
 });
 
 app.post('/getDataCajasSensores', function(req, res) {
-  const { sensores } = req.body;
-  const { milisegundos } = req.body;
-  const{ normalizar } = req.body;
+  const { sensores, milisegundos, normalizar } = req.body;
 
   graficosServer.getMedidasCalculadasSensores(JSON.stringify(sensores), milisegundos, normalizar)
-  .then(json => {
-    return res.status(200).json(JSON.stringify(json))
-  })
-  .catch(err => {
-    console.error(err);
-    return res.status(500).json({ error: 'Error en el servidor' });
+    .then(json => {
+      return res.status(200).json(json)
+    })
+    .catch(err => {
+      console.error(err);
+      return res.status(500).json({ error: 'Error en el servidor' });
+    });
   });
-});
 
 
  fs.readFile('config.json', 'utf8', (err, data) => {
@@ -164,8 +159,3 @@ app.post('/getDataCajasSensores', function(req, res) {
   server.listen(serverPort);
   console.debug('Server listening on port ' + serverPort);
 });
-
-
-
-
-

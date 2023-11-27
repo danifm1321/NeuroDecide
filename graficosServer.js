@@ -127,10 +127,6 @@ function getMedidasCalculadasParticipantes(participantes, milisegundos, normaliz
 
   const pythonScript = spawn('python3', ['pythonScripts/medidas_calculadas_participantes.py', participantes, milisegundos, normalizar, fileUploadPath]);
 
-  pythonScript.stderr.on('data', (data) => {
-    console.error(`Error: ${data}`);
-  });
-
   pythonScript.on('close', (code) => {
     console.log(`child process exited with code ${code}`);
   });
@@ -139,6 +135,10 @@ function getMedidasCalculadasParticipantes(participantes, milisegundos, normaliz
     pythonScript.stdout.on('data', (data) => {
       resolve(data.toString())
     });
+
+    pythonScript.stderr.on('data', (data) => {
+      resolve(JSON.stringify({Error : data.toString()}));
+    });
   });
 }
 
@@ -146,17 +146,17 @@ function getMedidasCalculadasSensores(sesiones, milisegundos, normalizar) {
 
   const pythonScript = spawn('python3', ['pythonScripts/medidas_calculadas_sensores.py', sesiones, milisegundos, normalizar, fileUploadPath]);
 
-  pythonScript.stderr.on('data', (data) => {
-    console.error(`Error: ${data}`);
-  });
-
   pythonScript.on('close', (code) => {
     console.log(`child process exited with code ${code}`);
   });
 
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     pythonScript.stdout.on('data', (data) => {
       resolve(data.toString())
+    });
+
+    pythonScript.stderr.on('data', (data) => {
+      resolve(JSON.stringify({Error : data.toString()}));
     });
   });
 }

@@ -160,15 +160,7 @@ function creaPrimerUsuario(emailUsuario, generoUsuario) {
 }
 
 function grabarCSV(req, res) {
-    const { id } = req.body
-    const { trial } = req.body
-    const { respuesta } = req.body
-    const { tInicio } = req.body
-    const { tApareceLetra } = req.body
-    const { tPulsacion } = req.body
-    const { eleccion } = req.body
-    const { tAparicionLetraElegida } = req.body
-    const { letraElegida } = req.body
+    const { id, trial, respuesta, tInicio, tApareceLetra, tPulsacion, eleccion, tAparicionLetraElegida, letraElegida } = req.body
 
     var data = [{
       id : id,
