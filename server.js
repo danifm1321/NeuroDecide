@@ -4,6 +4,7 @@ const fs = require('fs');
 
 const graficosServer = require('./graficosServer');
 const experimentoServer = require('./experimentoServer');
+const logger = require('./logger');
 
 const app = express();
 app.use(express.json());
@@ -74,7 +75,7 @@ app.put('/aniadirSesion/:id', function(req, res) {
     
   let data = JSON.stringify(users);
   fs.writeFile('secrets/users.json', data, function(err, result) {
-    if(err) console.log('error', err);
+    if(err) logger.error("Error creating the users file: " + err);
   });
 
   return res.status(200).json({
@@ -99,7 +100,7 @@ app.get('/getSesiones/:user', function(req, res) {
     return res.status(200).json(JSON.stringify(sesiones));
   })
   .catch(err => {
-    console.error(err);
+    logger.error("Error getting the sessions: " + err)
     return res.status(500).json({ error: 'Error en el servidor' });
   });
 });
@@ -113,7 +114,7 @@ app.get('/getData/:user/:sesion', function(req, res) {
     return res.status(200).json(JSON.stringify(data));
   })
   .catch(err => {
-    console.error(err);
+    logger.error("Error getting the data: " + err)
     return res.status(500).json({ error: 'Error en el servidor' });
   });
 });
@@ -126,7 +127,7 @@ app.post('/getDataCajasParticipantes', function(req, res) {
     return res.status(200).json(data);
   })
   .catch(err => {
-    console.error(err);
+    logger.error("Error getting the participants data: " + err)
     return res.status(500).json({ error: 'Error en el servidor' });
   });
 });
@@ -139,7 +140,7 @@ app.post('/getDataCajasSensores', function(req, res) {
       return res.status(200).json(json)
     })
     .catch(err => {
-      console.error(err);
+      logger.error("Error getting the sensors data: " + err)
       return res.status(500).json({ error: 'Error en el servidor' });
     });
   });
@@ -147,7 +148,7 @@ app.post('/getDataCajasSensores', function(req, res) {
 
  fs.readFile('config.json', 'utf8', (err, data) => {
   if (err) {
-    console.error('Error al leer el archivo de configuración:', err);
+    logger.error("Error reading the config data: " + err)
     return;
   }
 
@@ -157,5 +158,5 @@ app.post('/getDataCajasSensores', function(req, res) {
   const server = http.createServer(app);
   server.timeout = 5000000;
   server.listen(serverPort);
-  console.debug('Server listening on port ' + serverPort);
+  logger.info('Server listening on port ' + serverPort);
 });

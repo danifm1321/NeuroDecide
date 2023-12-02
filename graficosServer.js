@@ -3,6 +3,7 @@ const csvReader = require('csv-parser');
 const localDataObjectFile = require('./localDataObject');
 const localMuseDataObjectFile = require('./museDataObject');
 const { spawn } = require('child_process');
+const logger = require('./logger');
 
 var fileUploadPath = ''
 
@@ -52,8 +53,15 @@ function getSesiones(participanteEleccion) {
         }
       }).on('end', () => {
         resolve(trials);
+      })
+      .on('error', (err) => {
+        logger.error("Error reading data/results" + participanteEleccion + ".csv: " + err)
+
+        reject(err);
       });
     } else {
+      logger.error("Error: data/results" + participanteEleccion + ".csv file doesn't exist")
+
       reject(ERR_INVALID_FILE_URL_PATH);
     }
   });
@@ -76,7 +84,6 @@ function getData(participante, sesion) {
           }
         })
         .on('end', () => {
-          //console.log('CSV file successfully processed');
   
           if (CSVSession.length != 0)
           {
@@ -90,7 +97,6 @@ function getData(participante, sesion) {
               dataLocal.push(localData);
             });
             
-  
             var inicioSesion = new Date(CSVSession[0]["Tiempo de inicio"]);
             var finalSesion = new Date(CSVSession[CSVSession.length-1]["Tiempo de la pulsación"]);
   
@@ -110,14 +116,28 @@ function getData(participante, sesion) {
                 }
               }).on('end', () => {
   
+                logger.info('Data CSV successfully processed');
+
                 var finalData = [dataLocal, dataMuse]
   
                resolve(finalData);
+              })
+              .on('error', (err) => {
+                logger.error("Error reading /museData" + participante + ".csv: " + err)
+
+                reject(err);
               });
             } else {
+              logger.error("Error: /museData" + participante + ".csv file doesn't exist")
+
               reject(ERR_INVALID_FILE_URL_PATH);
             }
           }
+        })
+        .on('error', (err) => {
+          logger.error("Error reading data/results" + participante + ".csv: " + err)
+
+          reject(err);
         });
       }
     });
@@ -127,16 +147,14 @@ function getMedidasCalculadasParticipantes(participantes, milisegundos, normaliz
 
   const pythonScript = spawn('python3', ['pythonScripts/medidas_calculadas_participantes.py', participantes, milisegundos, normalizar, fileUploadPath]);
 
-  pythonScript.on('close', (code) => {
-    console.log(`child process exited with code ${code}`);
-  });
-
   return new Promise((resolve) => {
     pythonScript.stdout.on('data', (data) => {
+      logger.info("Participants calculation successfully processed")
       resolve(data.toString())
     });
 
     pythonScript.stderr.on('data', (data) => {
+      logger.error("Error calculating the participants: " + data.toString())
       resolve(JSON.stringify({Error : data.toString()}));
     });
   });
@@ -146,16 +164,14 @@ function getMedidasCalculadasSensores(sesiones, milisegundos, normalizar) {
 
   const pythonScript = spawn('python3', ['pythonScripts/medidas_calculadas_sensores.py', sesiones, milisegundos, normalizar, fileUploadPath]);
 
-  pythonScript.on('close', (code) => {
-    console.log(`child process exited with code ${code}`);
-  });
-
   return new Promise((resolve, reject) => {
     pythonScript.stdout.on('data', (data) => {
+      logger.info("Sensors calculation successfully processed")
       resolve(data.toString())
     });
 
     pythonScript.stderr.on('data', (data) => {
+      logger.error("Error calculating the sensors: " + data.toString())
       resolve(JSON.stringify({Error : data.toString()}));
     });
   });
