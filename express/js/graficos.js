@@ -311,9 +311,10 @@ function ajaxGetDataCajasParticipantes() {
       }
     }).done(function(data) {
 
-
       if(JSON.parse(data)["Error"] != undefined)
       {
+        $(".error-participants").removeClass('d-none');
+
       } else {
 
         const dataJsonParticipantesDesordenado = JSON.parse(data)
@@ -379,7 +380,7 @@ function ajaxGetDataCajasSensores() {
 
       if(JSON.parse(data)["Error"] != undefined)
       {
-        console.log("error")
+        $(".error-sensors").removeClass('d-none');
       } else {
         const dataJsonSensoresDesordenado = JSON.parse(data)
 
@@ -1250,9 +1251,11 @@ function showLoading(tipo_grafico){
       $('.box-spinner-wrapper').removeClass("d-none")
       break;
     case TIPOS_GRAFICOS.CAJAS_PARTICIPANTES:
+      $(".error-participants").addClass('d-none');
       $('.box-participants-spinner-wrapper').removeClass("d-none")
       break;
     case TIPOS_GRAFICOS.CAJAS_SENSORES:
+      $(".error-sensors").addClass('d-none');
       $('.box-sensors-spinner-wrapper').removeClass("d-none")
       break;
   }

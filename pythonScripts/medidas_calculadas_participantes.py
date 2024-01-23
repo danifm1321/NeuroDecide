@@ -229,22 +229,25 @@ if os.path.isfile(url_csv):
 
     for index, row in dataframe_csv.iterrows():
 
-        info_archivo = os.stat("data/results" + str(row['id_participante']) + '.csv')
-        fecha_modificacion = info_archivo.st_mtime
-        fecha_legible = datetime.fromtimestamp(fecha_modificacion).strftime('%Y-%m-%d %H:%M:%S')
+        url_participante = "data/results" + str(row['id_participante']) + '.csv'
 
-        if fecha_legible == row['ultima_modificacion']:
-            if str(row['id_participante']) in participantes and row['normalizado'] == normalizar and (row['milisegundos'] == 0 or row['milisegundos'] == int(milisegundos)):
-                rellenar_json(row)
+        if os.path.isfile(url_participante):
+            info_archivo = os.stat(url_participante)
+            fecha_modificacion = info_archivo.st_mtime
+            fecha_legible = datetime.fromtimestamp(fecha_modificacion).strftime('%Y-%m-%d %H:%M:%S')
 
-                json_final[row['id_participante']] = {
-                    "alpha" : valores_finales_alpha[row['id_participante']],
-                    "beta" : valores_finales_beta[row['id_participante']],
-                    "delta" : valores_finales_delta[row['id_participante']],
-                    "theta" : valores_finales_theta[row['id_participante']],
-                    "gamma" : valores_finales_gamma[row['id_participante']],
-                    "raw" : valores_finales_raw[row['id_participante']]
-                }
+            if fecha_legible == row['ultima_modificacion']:
+                if str(row['id_participante']) in participantes and row['normalizado'] == normalizar and (row['milisegundos'] == 0 or row['milisegundos'] == int(milisegundos)):
+                    rellenar_json(row)
+
+                    json_final[row['id_participante']] = {
+                        "alpha" : valores_finales_alpha[row['id_participante']],
+                        "beta" : valores_finales_beta[row['id_participante']],
+                        "delta" : valores_finales_delta[row['id_participante']],
+                        "theta" : valores_finales_theta[row['id_participante']],
+                        "gamma" : valores_finales_gamma[row['id_participante']],
+                        "raw" : valores_finales_raw[row['id_participante']]
+                    }
 else:
     estructura_csv = {
         'id_participante' : [],
