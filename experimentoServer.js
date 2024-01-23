@@ -51,7 +51,8 @@ function registroUsuario(emailUsuario, generoUsuario) {
 
       let data = JSON.stringify(users);
       fs.writeFile('secrets/users.json', data, function(err, result) {
-        if(err) console.log('error', err);
+        if(err)        logger.error("Error writing users.json: " + err)
+
       });
     } catch (err) {
 
@@ -134,7 +135,7 @@ function creaCabecera(id) {
 
           csvWriter
           .writeRecords(data)
-          .then(()=> console.log('Header was written successfully'));
+          .then(()=> logger.info('Header was written successfully'));
         }
       })
 }
@@ -153,7 +154,7 @@ function creaPrimerUsuario(emailUsuario, generoUsuario) {
 
       let data = JSON.stringify(users);
       fs.writeFile('secrets/users.json', data, function(err, result) {
-        if(err) console.log('error', err);
+        if(err) logger.error('Error writing users.json: ' + err);
       });
 
       return users[0];
@@ -174,11 +175,9 @@ function grabarCSV(req, res) {
       letraElegida : letraElegida
     }];
   
-    console.log(data)
-
     csvWriter
         .writeRecords(data)
-        .then(()=> console.log('The CSV file was written successfully'));
+        .then(()=> logger.info('The CSV file was written successfully'));
 
     return res.status(200).json({
       codigo : 200
